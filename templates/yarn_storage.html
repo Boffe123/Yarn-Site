@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>Yarn Storage</title>
+</head>
+<body>
+    <header class="navbar">
+
+        <h1 class="site-title">Yarn Storage Page</h1>
+
+        <nav>
+            <ul class="nav_list">
+                <li><a href="/">Home</a></li>
+                <li><a href="yarn_storage.html">Yarn Storage</a></li>
+            </ul>
+        </nav>
+
+    </header>
+
+
+    <div>
+        <!-- Make the add yarn etc look nicer with css-->
+
+        <h2>Add Yarn</h2>
+
+        <form method="post">
+            <input type="text" name="name" placeholder="Enter Yarn Name: ">
+            <input type="text" name="type" placeholder="Enter Yarn Type: ">
+            <input type="text" name="color" placeholder="Enter Yarn Color">
+            <input type="file" name="image">
+
+            <button type="submit">Add Yarn</button>
+        </form>
+    </div>
+    <div>
+        <h2>List of Yarn</h2>
+        <ul class="item-list">
+        {% for yarn in yarns %}
+            <li>
+                <span class="label">Name:</span> {{ yarn.name }} |
+                <span class="label">Type:</span> {{ yarn.type }} |
+                <span class="label">Color:</span> {{ yarn.color }}
+                <span class="label">Image:</span> {{ yarn.image}}
+            </li>
+        {% endfor %}
+        </ul>
+    </div>  
+</body>
+</html>
