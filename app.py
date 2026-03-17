@@ -7,6 +7,10 @@ app = Flask(__name__)
 
 yarns = []
 
+@app.route("/wishlist.html")
+def wishlist():
+    return render_template("wishlist.html")
+
 @app.route("/")
 def home():
     return render_template("index.html")
