@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>Projects</title>
+</head>
+<body>
+    <header class="navbar">
+
+        <h1 class="site-title">Projects Page</h1>
+
+        <nav>
+            <ul class="nav_list">
+                <li><a href="/">Home</a></li>
+                <li><a href="/yarn_storage.html">Yarn Storage</a></li>
+                <li><a href="/wishlist.html">Wishlist</a></li>
+                <li><a href="/projects.html">Projects</a></li>
+            </ul>
+        </nav>
+
+    </header>
+
+    <div>
+        <h2>Add Project</h2>
+
+        <form method="post">
+            
+            <input type="text" name="name" placeholder="Enter Project Name:" required>
+            <span class ="label">Enter Due Date: </span>
+            <input type="date" name="due_date" required>
+
+            <textarea name="description" placeholder="Enter Project Description:" required></textarea>
+
+            <button type="submit">Add Project</button>
+        </form>
+    </div>
+
+    <div>
+        <h2>Project List</h2>
+        <ul class="list-info">
+        {% for project in projects %}
+            <li>
+                <div class="list-details">
+                    <span class="label">Name:</span> {{ project.name }} |
+                    <span class="label">Due Date:</span> {{ project.due_date }} |
+                    <span class="label">Description:</span> {{ project.description }}
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>  
+
+</body>
+</html>

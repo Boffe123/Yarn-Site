@@ -16,6 +16,7 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="yarn_storage.html">Yarn Storage</a></li>
                 <li><a href="wishlist.html">Wishlist</a></li>
+                <li><a href="projects.html">Projects</a></li>
             </ul>
         </nav>
 
@@ -38,19 +39,19 @@
     </div>
     <div>
         <h2>List of Yarn</h2>
-        <ul class="yarn-info">
+        <ul class="list-info">
         {% for yarn in yarns %}
             <li>
 
-                <div class="yarn-details">
-                    <span class="label">Name:</span> {{ yarn.name }} |
-                    <span class="label">Type:</span> {{ yarn.type }} |
-                    <span class="label">Color:</span> {{ yarn.color }} |
+                <div class="list-details">
+                    <span class="label">Name:</span> {{ yarn.y_name }} |
+                    <span class="label">Type:</span> {{ yarn.y_type }} |
+                    <span class="label">Color:</span> {{ yarn.y_color }} |
                     <span class="label">Image:</span>
                 </div>
-                    <img class="yarn-img"
+                    <img class="list-img"
                         src="{{ url_for('static', filename='uploads/' ~ yarn.image) }}"
-                        alt="{{ yarn.name }}">
+                        alt="{{ yarn.y_name }}">
 
             </li>
             {% endfor %}

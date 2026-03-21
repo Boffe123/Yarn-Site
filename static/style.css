@@ -1,4 +1,4 @@
-.yarn-info li {
+.list-info li {
     background-color: #fff;
     margin-bottom: 15px;
     padding-left: 15px;
@@ -12,18 +12,18 @@
 
 }
 
-.yarn-img {
+.list-img {
     width: 100px;
     height: 100px;
     object-fit: cover;
     border-radius: 8px;
 }
 
-.yarn-details {
+.list-details {
     display: inline-block;
 }
 
-.yarn-info li:hover {
+.list-info li:hover {
     transform: translateY(-2px);
 }
 
