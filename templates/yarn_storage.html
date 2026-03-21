@@ -22,15 +22,15 @@
     </header>
 
 
-    <div>
+    <div    >
         <!-- Make the add yarn etc look nicer with css-->
 
         <h2>Add Yarn</h2>
 
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <input type="text" name="name" placeholder="Enter Yarn Name: ">
             <input type="text" name="type" placeholder="Enter Yarn Type: ">
-            <input type="text" name="color" placeholder="Enter Yarn Color">
+            <input type="text" name="color" placeholder="Enter Yarn Color: ">
             <input type="file" name="image">
 
             <button type="submit">Add Yarn</button>
@@ -38,15 +38,22 @@
     </div>
     <div>
         <h2>List of Yarn</h2>
-        <ul class="item-list">
+        <ul class="yarn-info">
         {% for yarn in yarns %}
             <li>
-                <span class="label">Name:</span> {{ yarn.name }} |
-                <span class="label">Type:</span> {{ yarn.type }} |
-                <span class="label">Color:</span> {{ yarn.color }}
-                <span class="label">Image:</span> {{ yarn.image}}
+
+                <div class="yarn-details">
+                    <span class="label">Name:</span> {{ yarn.name }} |
+                    <span class="label">Type:</span> {{ yarn.type }} |
+                    <span class="label">Color:</span> {{ yarn.color }} |
+                    <span class="label">Image:</span>
+                </div>
+                    <img class="yarn-img"
+                        src="{{ url_for('static', filename='uploads/' ~ yarn.image) }}"
+                        alt="{{ yarn.name }}">
+
             </li>
-        {% endfor %}
+            {% endfor %}
         </ul>
     </div>  
 </body>
