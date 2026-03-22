@@ -2,6 +2,8 @@ from flask import Flask, redirect, request, render_template, url_for
 from flask_sqlalchemy import SQLAlchemy
 import os
 from werkzeug.utils import secure_filename
+from datetime import datetime
+
 
 app = Flask(__name__)
 
@@ -27,12 +29,10 @@ class Yarn(db.Model):
 
 
 class Projects(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    due_date = db.Column(db.Date, nullable=False)
-    description = db.Column(db.Text, nullable=False)
-
-
+    p_id = db.Column(db.Integer, primary_key=True)
+    p_name = db.Column(db.String(50), nullable=False)
+    p_due_date = db.Column(db.Date, nullable=False)
+    p_description = db.Column(db.Text, nullable=False)
 # Routes
 
 
@@ -45,6 +45,14 @@ def home():
 def wishlist():
     return render_template("wishlist.html")
 
+@app.route("/delete_yarn/<int:y_id>", methods=["POST"])
+def delete_yarn(y_id):
+    yarn = Yarn.query.get_or_404(y_id)
+
+    db.session.delete(yarn)
+    db.session.commit()
+
+    return redirect(url_for("yarn_storage"))
 
 @app.route("/yarn_storage.html", methods=["GET", "POST"])
 def yarn_storage():
@@ -72,8 +80,37 @@ def yarn_storage():
             db.session.commit()
 
         return redirect(url_for("yarn_storage"))
+    
+    sort = request.args.get("sort", "id")
+    direction = request.args.get("direction", "desc")
 
-    yarns = Yarn.query.order_by(Yarn.y_id.desc()).all()
+    filter_field = request.args.get("filter_field")
+    filter_value = request.args.get("filter_value")
+
+    sort_map = {
+    "id": Yarn.y_id,
+    "name": Yarn.y_name,
+    "type": Yarn.y_type,
+    "color": Yarn.y_color
+    }
+    
+    column = sort_map.get(sort, Yarn.y_id)
+
+    if direction == "asc":
+        column = column.asc()
+    else:
+        column = column.desc()    
+
+    query = Yarn.query
+
+    if filter_field and filter_value:
+        if filter_field == "color":
+            query = query.filter(Yarn.y_color.ilike(f"%{filter_value}%"))
+        elif filter_field == "type":
+            query = query.filter(Yarn.y_type.ilike(f"%{filter_value}%"))
+            
+    query = query.order_by(column)
+    yarns = query.all()
     return render_template("yarn_storage.html", yarns=yarns)
 
 
@@ -81,15 +118,16 @@ def yarn_storage():
 def projects():
     if request.method == "POST":
         name = request.form.get("name")
-        due_date = request.form.get("due_date")
+        due_date_str = request.form.get("due_date")
+        parsed_date = datetime.strptime(due_date_str, "%Y-%m-%d").date()
         description = request.form.get("description")
 
-        if name and due_date and description:
+        if name and parsed_date and description:
             new_project = Projects(
-                name=name,
-                due_date=due_date,
-                description=description
-            )
+            p_name=name,
+            p_due_date=parsed_date,
+            p_description=description
+        )
             db.session.add(new_project)
             db.session.commit()
 
@@ -97,8 +135,6 @@ def projects():
 
     all_projects = Projects.query.all()
     return render_template("projects.html", projects=all_projects)
-
-
 
 # Run app
 

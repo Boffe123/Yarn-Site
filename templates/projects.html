@@ -39,13 +39,13 @@
 
     <div>
         <h2>Project List</h2>
-        <ul class="list-info">
+        <ul class="list-info" id="Project-List">
         {% for project in projects %}
             <li>
                 <div class="list-details">
-                    <span class="label">Name:</span> {{ project.name }} |
-                    <span class="label">Due Date:</span> {{ project.due_date }} |
-                    <span class="label">Description:</span> {{ project.description }}
+                    <span class="label">Name:</span> {{ project.p_name }} |
+                    <span class="label">Due Date:</span> {{ project.p_due_date }} |
+                    <span class="label">Description:</span> {{ project.p_description }}
                 </div>
             </li>
         {% endfor %}
