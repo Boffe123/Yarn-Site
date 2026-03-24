@@ -26,6 +26,12 @@ class Yarn(db.Model):
     y_type = db.Column(db.String(20), nullable=False)
     y_color = db.Column(db.String(20), nullable=False)
     y_image = db.Column(db.String(500), nullable=True)
+    y_brand = db.Column(db.String(20), nullable = False)
+    y_grams = db.Column(db.Integer, nullable = False)
+    y_weight = db.Column(db.Integer, nullable = False)
+    y_length = db.Column(db.Integer, nullable = False)
+    
+
 
 
 class Projects(db.Model):
@@ -60,6 +66,10 @@ def yarn_storage():
         name = request.form.get("name")
         yarn_type = request.form.get("type")
         color = request.form.get("color")
+        brand = request.form.get("brand")
+        grams = int(request.form.get("grams"))
+        weight = int(request.form.get("weight"))
+        length = int(request.form.get("length"))
 
         file = request.files.get("image")
         filename = None
@@ -74,7 +84,11 @@ def yarn_storage():
                 y_name=name,
                 y_type=yarn_type,
                 y_color=color,
-                y_image=filename
+                y_image=filename,
+                y_brand = brand,
+                y_grams = grams,
+                y_weight = weight,
+                y_length = length
             )
             db.session.add(new_yarn)
             db.session.commit()
@@ -91,7 +105,11 @@ def yarn_storage():
     "id": Yarn.y_id,
     "name": Yarn.y_name,
     "type": Yarn.y_type,
-    "color": Yarn.y_color
+    "color": Yarn.y_color,
+    "brand": Yarn.y_brand,
+    "grams": Yarn.y_grams,
+    "weight": Yarn.y_weight,
+    "length": Yarn.y_length
     }
     
     column = sort_map.get(sort, Yarn.y_id)
@@ -108,6 +126,14 @@ def yarn_storage():
             query = query.filter(Yarn.y_color.ilike(f"%{filter_value}%"))
         elif filter_field == "type":
             query = query.filter(Yarn.y_type.ilike(f"%{filter_value}%"))
+        elif filter_field == "brand":
+            query = query.filter(Yarn.y_brand.ilike(f"%{filter_value}%"))
+        elif filter_field == "grams":
+            query = query.filter(Yarn.y_grams == int(filter_value))
+        elif filter_field == "weight":
+            query = query.filter(Yarn.y_weight == int(filter_value))
+        elif filter_field == "length":
+            query = query.filter(Yarn.y_length == int(filter_value))
             
     query = query.order_by(column)
     yarns = query.all()

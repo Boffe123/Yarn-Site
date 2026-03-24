@@ -7,16 +7,35 @@ def seed_data():
         # Seed Yarn
         if Yarn.query.count() == 0:
             yarns = [
-                Yarn(y_name="Soft Cotton Blue", y_type="Cotton", y_color="Blue"),
-                Yarn(y_name="Soft Cotton Red", y_type="Cotton", y_color="Red"),
-                Yarn(y_name="Wool Classic Black", y_type="Wool", y_color="Black"),
-                Yarn(y_name="Acrylic Bright Yellow", y_type="Acrylic", y_color="Yellow"),
-                Yarn(y_name="Silk Premium White", y_type="Silk", y_color="White"),
-                Yarn(y_name="Bamboo Soft Teal", y_type="Bamboo", y_color="Teal"),
-                Yarn(y_name="Mixed Fiber Purple", y_type="Blend", y_color="Purple"),
-                Yarn(y_name="Chunky Wool Grey", y_type="Wool", y_color="Grey"),
-                Yarn(y_name="Cotton Light Pink", y_type="Cotton", y_color="Pink"),
-                Yarn(y_name="Acrylic Navy", y_type="Acrylic", y_color="Navy"),
+                Yarn(y_name="Soft Cotton Blue", y_type="Cotton", y_color="Blue",
+                    y_brand="Drops", y_grams=50, y_weight=3, y_length=85),
+
+                Yarn(y_name="Soft Cotton Red", y_type="Cotton", y_color="Red",
+                    y_brand="Drops", y_grams=50, y_weight=3, y_length=85),
+
+                Yarn(y_name="Wool Classic Black", y_type="Wool", y_color="Black",
+                    y_brand="Sandnes", y_grams=100, y_weight=4, y_length=200),
+
+                Yarn(y_name="Acrylic Bright Yellow", y_type="Acrylic", y_color="Yellow",
+                    y_brand="Red Heart", y_grams=100, y_weight=4, y_length=230),
+
+                Yarn(y_name="Silk Premium White", y_type="Silk", y_color="White",
+                    y_brand="Rowan", y_grams=50, y_weight=1, y_length=400),
+
+                Yarn(y_name="Bamboo Soft Teal", y_type="Bamboo", y_color="Teal",
+                    y_brand="Hobbii", y_grams=50, y_weight=2, y_length=120),
+
+                Yarn(y_name="Mixed Fiber Purple", y_type="Blend", y_color="Purple",
+                    y_brand="Lion Brand", y_grams=100, y_weight=4, y_length=180),
+
+                Yarn(y_name="Chunky Wool Grey", y_type="Wool", y_color="Grey",
+                    y_brand="Drops", y_grams=100, y_weight=5, y_length=80),
+
+                Yarn(y_name="Cotton Light Pink", y_type="Cotton", y_color="Pink",
+                    y_brand="Hobbii", y_grams=50, y_weight=2, y_length=100),
+
+                Yarn(y_name="Acrylic Navy", y_type="Acrylic", y_color="Navy",
+                    y_brand="Red Heart", y_grams=100, y_weight=4, y_length=220),
             ]
 
             db.session.add_all(yarns)

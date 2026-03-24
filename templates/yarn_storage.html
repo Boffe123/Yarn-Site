@@ -13,83 +13,104 @@
 
         <nav>
             <ul class="nav_list">
-                <li><a href="/">Home</a></li>
-                <li><a href="yarn_storage.html">Yarn Storage</a></li>
-                <li><a href="wishlist.html">Wishlist</a></li>
-                <li><a href="projects.html">Projects</a></li>
+               <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('yarn_storage') }}">Yarn Storage</a></li>
+                <li><a href="{{ url_for('wishlist') }}">Wishlist</a></li>
+                <li><a href="{{ url_for('projects') }}">Projects</a></li>
             </ul>
         </nav>
 
     </header>
 
-    <div>
+    <div class="user_input" id="add_yarn">
         <!-- Make the add yarn etc look nicer with css-->
 
         <h2>Add Yarn</h2>
 
         <form method="post" enctype="multipart/form-data">
-            <input type="text" name="name" placeholder="Enter Yarn Name: ">
-            <input type="text" name="type" placeholder="Enter Yarn Type: ">
-            <input type="text" name="color" placeholder="Enter Yarn Color: ">
-            <input type="file" name="image">
+            <input id="name" type="text" name="name" placeholder="Enter Yarn Name: ">
+            <input id="type" type="text" name="type" placeholder="Enter Yarn Type: ">
+            <input id="color" type="text" name="color" placeholder="Enter Yarn Color: ">
+            <input id="brand" type="text" name="brand" placeholder="Enter Yarn Brand: ">
+            <input id="grams" type="number" name="grams" placeholder="Enter Yarn Weight In Grams: ">
+            <input id="weight" type="number" name="weight" placeholder="Enter Yarn Weight Category 0-7: ">
+            <input id="length" type="number" name="length" placeholder="Enter Yarn Length In Cm: ">
+            <button for="image" class="file-button">Choose Image</button>
+            <input id="image" type="file" name="image">
 
             <button type="submit">Add Yarn</button>
         </form>
     </div>
-    <div>
-        <h2>List of Yarn</h2>
-        <form method="get" action="/yarn_storage.html">
+    <div class="content">
+        <div class="filtering">
+            <h2>List of Yarn</h2>
+            <form method="get" action="/yarn_storage.html">
 
-    <label>Sort list by:</label>
-    <select name="sort">
-        <option value="id" {% if request.args.get('sort') == 'id' %}selected{% endif %}>Default</option>
-        <option value="name" {% if request.args.get('sort') == 'name' %}selected{% endif %}>Name</option>
-        <option value="type" {% if request.args.get('sort') == 'type' %}selected{% endif %}>Type</option>
-        <option value="color" {% if request.args.get('sort') == 'color' %}selected{% endif %}>Color</option>
-    </select>
+            <label>Sort list by:</label>
+            <select name="sort">
+                <option value="id" {% if request.args.get('sort') == 'id' %}selected{% endif %}>Default</option>
+                <option value="name" {% if request.args.get('sort') == 'name' %}selected{% endif %}>Name</option>
+                <option value="type" {% if request.args.get('sort') == 'type' %}selected{% endif %}>Type</option>
+                <option value="color" {% if request.args.get('sort') == 'color' %}selected{% endif %}>Color</option>
+                <option value="brand" {% if request.args.get('sort') == 'brand' %}selected{% endif %}>Brand</option>
+                <option value="grams" {% if request.args.get('sort') == 'grams' %}selected{% endif %}>Grams</option>
+                <option value="weight" {% if request.args.get('sort') == 'weight' %}selected{% endif %}>Weight</option>
+                <option value="length" {% if request.args.get('sort') == 'length' %}selected{% endif %}>Length</option>
+            </select>
 
-    <label>Direction:</label>
-    <select name="direction">
-        <option value="asc" {% if request.args.get('direction') == 'asc' %}selected{% endif %}>Ascending</option>
-        <option value="desc" {% if request.args.get('direction') == 'desc' %}selected{% endif %}>Descending</option>
-    </select>
+            <label>Direction:</label>
+            <select name="direction">
+                <option value="asc" {% if request.args.get('direction') == 'asc' %}selected{% endif %}>Ascending</option>
+                <option value="desc" {% if request.args.get('direction') == 'desc' %}selected{% endif %}>Descending</option>
+            </select>
 
-    <label>Filter By:</label>
-    <select name="filter_field">
-        <option value="" {% if not request.args.get('filter_field') %}selected{% endif %}>All</option>
-        <option value="color" {% if request.args.get('filter_field') == 'color' %}selected{% endif %}>Color</option>
-        <option value="type" {% if request.args.get('filter_field') == 'type' %}selected{% endif %}>Type</option>
-    </select>
+            <label>Filter By:</label>
+            <select name="filter_field">
+                <option value="" {% if not request.args.get('filter_field') %}selected{% endif %}>All</option>
+                <option value="color" {% if request.args.get('filter_field') == 'color' %}selected{% endif %}>Color</option>
+                <option value="type" {% if request.args.get('filter_field') == 'type' %}selected{% endif %}>Type</option>
+                <option value="brand" {% if request.args.get('filter_field') == 'brand' %}selected{% endif %}>Brand</option>
+                <option value="grams" {% if request.args.get('filter_field') == 'grams' %}selected{% endif %}>Grams</option>
+                <option value="weight" {% if request.args.get('filter_field') == 'weight' %}selected{% endif %}>Weight</option>
+                <option value="length" {% if request.args.get('filter_field') == 'length' %}selected{% endif %}>Length</option>
+            </select>
 
-    <label>Value:</label>
-    <input type="text" name="filter_value"
-           value="{{ request.args.get('filter_value', '') }}"
-           placeholder="e.g. blue">
+            <label>Value:</label>
+            <input type="text" name="filter_value"
+                value="{{ request.args.get('filter_value', '') }}"
+                placeholder="e.g. blue">
 
-    <button type="submit">Apply</button>
-</form>
-        <ul class="list-info">
-        {% for yarn in yarns %}
-            <li>
+            <button type="submit">Apply</button>
+        </div>
+        <div class="item-list">
+            </form>
+            <ul class="list-info">
+            {% for yarn in yarns %}
+                <li>
 
-                <div class="list-details">
-                    <span class="label">Name:</span> {{ yarn.y_name }} |
-                    <span class="label">Type:</span> {{ yarn.y_type }} |
-                    <span class="label">Color:</span> {{ yarn.y_color }} |
-                    <span class="label">Image:</span>
-                </div>
-                
-                <img class="list-img"
-                        src="{{ url_for('static', filename='uploads/' ~ yarn.y_image) }}"
-                        alt="{{ yarn.y_name }}">
+                    <div class="list-details">
+                        <span class="label">Name:</span> {{ yarn.y_name }} |
+                        <span class="label">Type:</span> {{ yarn.y_type }} |
+                        <span class="label">Color:</span> {{ yarn.y_color }} |
+                        <span class="label">Brand:</span> {{ yarn.y_brand }} |
+                        <span class="label">Grams:</span> {{ yarn.y_grams }} |
+                        <span class="label">Weight:</span> {{ yarn.y_weight }} |
+                        <span class="label">Length:</span> {{ yarn.y_length }} |
+                        <span class="label">Image:</span>
+                    </div>
+                    
+                    <img class="list-img"
+                            src="{{ url_for('static', filename='uploads/' ~ yarn.y_image) }}"
+                            alt="{{ yarn.y_name }}">
 
-                <form method="post" action="{{ url_for('delete_yarn', y_id=yarn.y_id) }}">
-                     <button type="submit">Delete</button>
-                </form>
+                    <form method="post" action="{{ url_for('delete_yarn', y_id=yarn.y_id) }}">
+                        <button id="item_delete" type="submit">Delete</button>
+                    </form>
 
-            </li>
-            {% endfor %}
-        </ul>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>  
 </body>
 </html>
